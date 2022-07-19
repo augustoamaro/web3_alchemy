@@ -5,7 +5,7 @@ import styles from './styles/Home.module.css'
 import monster from './utils/monster.jpg';
 
 export default function Home() {
-  const contractAddress = "0xDBa03676a2fBb6711CB652beF5B7416A53c1421D";
+  const contractAddress = "0x2DA708e0af93f762E269089EE5C98B30d87539fF";
   const contractABI = abi.abi;
 
   const [currentAccount, setCurrentAccount] = useState("");
@@ -91,7 +91,6 @@ export default function Home() {
     }
   };
 
-  // Function to fetch all memos stored on-chain.
   const getMemos = async () => {
     try {
       const { ethereum } = window;
@@ -104,7 +103,7 @@ export default function Home() {
           signer
         );
 
-        console.log("fetching memos from the blockchain..");
+        console.log("pegando mensagens da blockchain..");
         const memos = await buyMeACoffee.getMemos();
         console.log("fetched!");
         setMemos(memos);
@@ -173,7 +172,7 @@ export default function Home() {
         {currentAccount ? (
           <div>
             <form>
-              <div class="formgroup">
+              <div className="formgroup">
                 <label>
                   Nome
                 </label>
@@ -187,7 +186,7 @@ export default function Home() {
                 />
               </div>
               <br />
-              <div class="formgroup">
+              <div className="formgroup">
                 <label>
                   Me manda uma mensagem
                 </label>
