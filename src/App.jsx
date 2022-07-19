@@ -1,14 +1,13 @@
 import abi from './utils/BuyMeACoffe.json';
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import React, { useEffect, useState } from "react";
 import styles from './styles/Home.module.css'
+import monster from './utils/monster.jpg';
 
 export default function Home() {
-  // Contract Address & ABI
   const contractAddress = "0xDBa03676a2fBb6711CB652beF5B7416A53c1421D";
   const contractABI = abi.abi;
 
-  // Component state
   const [currentAccount, setCurrentAccount] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -22,7 +21,6 @@ export default function Home() {
     setMessage(event.target.value);
   }
 
-  // Wallet connection logic
   const isWalletConnected = async () => {
     try {
       const { ethereum } = window;
@@ -32,9 +30,9 @@ export default function Home() {
 
       if (accounts.length > 0) {
         const account = accounts[0];
-        console.log("wallet is connected! " + account);
+        console.log("carteira conectada! " + account);
       } else {
-        console.log("make sure MetaMask is connected");
+        console.log("verificar se a carteira está conectada");
       }
     } catch (error) {
       console.log("error: ", error);
@@ -46,7 +44,7 @@ export default function Home() {
       const { ethereum } = window;
 
       if (!ethereum) {
-        console.log("please install MetaMask");
+        console.log("por favor, instale o metamask");
       }
 
       const accounts = await ethereum.request({
@@ -72,7 +70,7 @@ export default function Home() {
           signer
         );
 
-        console.log("buying coffee..")
+        console.log("comprando monster..")
         const coffeeTxn = await buyMeACoffee.buyCoffee(
           name ? name : "anon",
           message ? message : "Enjoy your coffee!",
@@ -83,9 +81,8 @@ export default function Home() {
 
         console.log("mined ", coffeeTxn.hash);
 
-        console.log("coffee purchased!");
+        console.log("Monster comprado!");
 
-        // Clear the form fields.
         setName("");
         setMessage("");
       }
@@ -112,7 +109,7 @@ export default function Home() {
         console.log("fetched!");
         setMemos(memos);
       } else {
-        console.log("Metamask is not connected");
+        console.log("Metamask não está conectada");
       }
 
     } catch (error) {
@@ -125,8 +122,6 @@ export default function Home() {
     isWalletConnected();
     getMemos();
 
-    // Create an event handler function for when someone sends
-    // us a new memo.
     const onNewMemo = (from, timestamp, name, message) => {
       console.log("Memo received: ", from, timestamp, name, message);
       setMemos((prevState) => [
@@ -165,13 +160,14 @@ export default function Home() {
   return (
     <div className={styles.container}>
 
-      <title>Buy Leonidas a Coffee!</title>
+      <title>Monster Energy</title>
       <meta name="description" content="Tipping site" />
       <link rel="icon" href="/favicon.ico" />
 
       <main className={styles.main}>
+        <img with="300px" height="400px" src={monster} />
         <h1 className={styles.title}>
-          Buy Leonidas a Coffee!
+          Compra um monster pra mim!
         </h1>
 
         {currentAccount ? (
@@ -179,27 +175,27 @@ export default function Home() {
             <form>
               <div class="formgroup">
                 <label>
-                  Name
+                  Nome
                 </label>
                 <br />
 
                 <input
                   id="name"
                   type="text"
-                  placeholder="anon"
+                  placeholder="Digite seu nome"
                   onChange={onNameChange}
                 />
               </div>
               <br />
               <div class="formgroup">
                 <label>
-                  Send Leonidas a message
+                  Me manda uma mensagem
                 </label>
                 <br />
 
                 <textarea
                   rows={3}
-                  placeholder="Enjoy your coffee!"
+                  placeholder="Mensagem"
                   id="message"
                   onChange={onMessageChange}
                   required
@@ -211,17 +207,17 @@ export default function Home() {
                   type="button"
                   onClick={buyCoffee}
                 >
-                  Send 1 Coffee for 0.001ETH
+                  1 Monster Energy por 0.001ETH
                 </button>
               </div>
             </form>
           </div>
         ) : (
-          <button onClick={connectWallet}> Connect your wallet </button>
+          <button onClick={connectWallet} style={{ padding: "10px" }}> Conecte sua carteira </button>
         )}
       </main>
 
-      {currentAccount && (<h1>Memos received</h1>)}
+      {currentAccount && (<h1>Mensagens recebidas</h1>)}
 
       {currentAccount && (memos.map((memo, idx) => {
         return (
